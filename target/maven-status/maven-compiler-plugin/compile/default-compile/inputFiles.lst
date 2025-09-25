@@ -1,0 +1,7 @@
+/home/a10900612/Asignaturas/Entorno_cliente/Spooller/spooller/src/main/java/net/ausiasmarch/connection/DatabaseParameters.java
+/home/a10900612/Asignaturas/Entorno_cliente/Spooller/spooller/src/main/java/net/ausiasmarch/connection/HikariConfiguration.java
+/home/a10900612/Asignaturas/Entorno_cliente/Spooller/spooller/src/main/java/net/ausiasmarch/model/UsuarioBean.java
+/home/a10900612/Asignaturas/Entorno_cliente/Spooller/spooller/src/main/java/net/ausiasmarch/controller/UsuarioController.java
+/home/a10900612/Asignaturas/Entorno_cliente/Spooller/spooller/src/main/java/net/ausiasmarch/dao/UsuarioDAO.java
+/home/a10900612/Asignaturas/Entorno_cliente/Spooller/spooller/src/main/java/net/ausiasmarch/service/UsuarioService.java
+/home/a10900612/Asignaturas/Entorno_cliente/Spooller/spooller/src/main/java/net/ausiasmarch/connection/AppContextListener.java

@@ -5,15 +5,15 @@ public class DatabaseParameters {
     private static final String dbUser="root";
     private static final String dbPassword="tiger";
 
-    public String getDbUrl() {
+    public static String getDbUrl() {
         return dbUrl;
     }
 
-    public String getDbUser() {
+    public static String getDbUser() {
         return dbUser;
     }
 
-    public String getDbPassword() {
+    public static String getDbPassword() {
         return dbPassword;
     }
 
