@@ -1,19 +1,35 @@
 package net.ausiasmarch.service;
 
-import java.sql.SQLException;
-
+import java.util.List;
 import net.ausiasmarch.dao.UsuarioDAO;
-import net.ausiasmarch.model.*;
+import net.ausiasmarch.model.UsuarioBean;
 
 public class UsuarioService {
 
-    public UsuarioBean get(Long id) throws SQLException {
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-        // Es mejor crear la conexion a nivel de servicio y pasarla al DAO
-
-        UsuarioDAO oUsuarioDao = new UsuarioDAO();
-        UsuarioBean oUsuarioBean = oUsuarioDao.get(id);
-        return oUsuarioBean;
+    // GET por ID
+    public UsuarioBean get(Long id) {
+        return usuarioDAO.get(id);
     }
 
+    // GET ALL
+    public List<UsuarioBean> getAll() {
+        return usuarioDAO.getAll();
+    }
+
+    // CREATE
+    public void create(UsuarioBean usuario) {
+        usuarioDAO.insert(usuario);
+    }
+
+    // UPDATE
+    public void update(UsuarioBean usuario) {
+        usuarioDAO.update(usuario);
+    }
+
+    // DELETE
+    public void delete(Long id) {
+        usuarioDAO.delete(id);
+    }
 }

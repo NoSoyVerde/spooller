@@ -129,4 +129,5 @@ public class UsuarioDAO {
         oUsuarioBean.setApellido2(oResultSet.getString("apellido2"));
         return oUsuarioBean;
     }
+    
 }
