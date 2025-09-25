@@ -25,6 +25,19 @@ public class HikariConfiguration {
     }
 
     public static DataSource getPool() {
+        if (webappPool == null) {
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(DatabaseParameters.getDbUrl());
+            config.setUsername(DatabaseParameters.getDbUser());
+            config.setPassword(DatabaseParameters.getDbPassword());
+            config.setMaximumPoolSize(10); // Máximo de conexiones
+            config.setMinimumIdle(2); // Conexiones mínimas inactivas
+            config.setIdleTimeout(30000); // Tiempo de espera antes de liberar conexiones inactivas (30s)
+            config.setConnectionTimeout(30000); // Tiempo máximo de espera para obtener una conexión (30s)
+            config.setPoolName("MiHikariPool"); // Nombre de la pool (opcional, útil para debug)
+
+            webappPool = new HikariDataSource(config);
+        }
         return webappPool;
     }
 
