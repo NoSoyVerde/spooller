@@ -4,4 +4,5 @@ net/ausiasmarch/model/UsuarioBean.class
 net/ausiasmarch/dao/UsuarioDAO.class
 net/ausiasmarch/controller/UsuarioController.class
 net/ausiasmarch/connection/DatabaseParameters.class
+net/ausiasmarch/exception/ResourceNotFoundException.class
 net/ausiasmarch/connection/HikariConfiguration.class

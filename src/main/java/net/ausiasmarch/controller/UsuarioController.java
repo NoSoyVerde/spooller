@@ -20,7 +20,8 @@ public class UsuarioController extends HttpServlet {
             request.setAttribute("usuario", usuario);
             request.getRequestDispatcher("/usuario.jsp").forward(request, response);
         } catch (Exception e) {
-            throw new javax.servlet.ServletException("Error!" + e.getMessage(), e);
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
 
     }

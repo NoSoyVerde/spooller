@@ -8,32 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.ausiasmarch.connection.HikariConfiguration;
+import net.ausiasmarch.exception.ResourceNotFoundException;
 import net.ausiasmarch.model.UsuarioBean;
 
 public class UsuarioDAO {
-
-    private Connection oConnection = null;
-
-    public UsuarioDAO(Connection oConnection) {
-        this.oConnection = oConnection;
-    }
 
     // Obtener un usuario por ID
     public UsuarioBean get(Long id) {
         String strSQL = "SELECT * FROM usuario WHERE id=?";
         UsuarioBean oUsuarioBean = null;
 
-        try (PreparedStatement oPreparedStatement = this.oConnection.prepareStatement(strSQL)) {
+        try (Connection oConnection = HikariConfiguration.getConnection();
+             PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
+
             oPreparedStatement.setLong(1, id);
 
             try (ResultSet oResultSet = oPreparedStatement.executeQuery()) {
                 if (oResultSet.next()) {
                     oUsuarioBean = mapResultSetToUsuario(oResultSet);
+                } else {
+                    throw new ResourceNotFoundException("Usuario con id " + id + " no encontrado.");
                 }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error accediendo a la base de datos", e);
         }
 
         return oUsuarioBean;
@@ -45,15 +44,15 @@ public class UsuarioDAO {
         List<UsuarioBean> usuarios = new ArrayList<>();
 
         try (Connection oConnection = HikariConfiguration.getConnection();
-                PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL);
-                ResultSet oResultSet = oPreparedStatement.executeQuery()) {
+             PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL);
+             ResultSet oResultSet = oPreparedStatement.executeQuery()) {
 
             while (oResultSet.next()) {
                 usuarios.add(mapResultSetToUsuario(oResultSet));
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error accediendo a la base de datos", e);
         }
 
         return usuarios;
@@ -63,7 +62,7 @@ public class UsuarioDAO {
     public boolean insert(UsuarioBean oUsuarioBean) {
         String strSQL = "INSERT INTO usuario (username, nombre, apellido1, apellido2) VALUES (?, ?, ?, ?)";
         try (Connection oConnection = HikariConfiguration.getConnection();
-                PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
+             PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
 
             oPreparedStatement.setString(1, oUsuarioBean.getUsername());
             oPreparedStatement.setString(2, oUsuarioBean.getNombre());
@@ -73,8 +72,7 @@ public class UsuarioDAO {
             return oPreparedStatement.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("Error insertando el usuario en la base de datos", e);
         }
     }
 
@@ -82,7 +80,7 @@ public class UsuarioDAO {
     public boolean update(UsuarioBean oUsuarioBean) {
         String strSQL = "UPDATE usuario SET username=?, nombre=?, apellido1=?, apellido2=? WHERE id=?";
         try (Connection oConnection = HikariConfiguration.getConnection();
-                PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
+             PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
 
             oPreparedStatement.setString(1, oUsuarioBean.getUsername());
             oPreparedStatement.setString(2, oUsuarioBean.getNombre());
@@ -90,11 +88,15 @@ public class UsuarioDAO {
             oPreparedStatement.setString(4, oUsuarioBean.getApellido2());
             oPreparedStatement.setLong(5, oUsuarioBean.getId());
 
-            return oPreparedStatement.executeUpdate() > 0;
+            int rowsUpdated = oPreparedStatement.executeUpdate();
+            if (rowsUpdated == 0) {
+                throw new ResourceNotFoundException("Usuario con id " + oUsuarioBean.getId() + " no encontrado para actualizar.");
+            }
+
+            return true;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("Error actualizando el usuario en la base de datos", e);
         }
     }
 
@@ -102,14 +104,18 @@ public class UsuarioDAO {
     public boolean delete(Long id) {
         String strSQL = "DELETE FROM usuario WHERE id=?";
         try (Connection oConnection = HikariConfiguration.getConnection();
-                PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
+             PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
 
             oPreparedStatement.setLong(1, id);
-            return oPreparedStatement.executeUpdate() > 0;
+            int rowsDeleted = oPreparedStatement.executeUpdate();
+            if (rowsDeleted == 0) {
+                throw new ResourceNotFoundException("Usuario con id " + id + " no encontrado para eliminar.");
+            }
+
+            return true;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("Error eliminando el usuario en la base de datos", e);
         }
     }
 
