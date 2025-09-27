@@ -34,7 +34,8 @@
                     <td>${usuario.apellido1}</td>
                     <td>${usuario.apellido2}</td>
                     <td>
-                        <a href="form-update.jsp?id=${usuario.id}" class="btn btn-primary btn-sm me-1">
+                        <!-- Enlace corregido para que pase por el UsuarioController -->
+                        <a href="UsuarioController?id=${usuario.id}" class="btn btn-primary btn-sm me-1">
                             <i class="bi bi-pencil-square"></i> Editar
                         </a>
                         <form action="UsuarioController" method="post" style="display:inline;">
