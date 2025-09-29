@@ -34,10 +34,11 @@
                     <td>${usuario.apellido1}</td>
                     <td>${usuario.apellido2}</td>
                     <td>
-                        <!-- Enlace corregido para que pase por el UsuarioController -->
+                        <!-- Editar: ahora pasa por el UsuarioController para cargar form-update.jsp -->
                         <a href="UsuarioController?id=${usuario.id}" class="btn btn-primary btn-sm me-1">
                             <i class="bi bi-pencil-square"></i> Editar
                         </a>
+                        <!-- Borrar: POST con _method=DELETE -->
                         <form action="UsuarioController" method="post" style="display:inline;">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="id" value="${usuario.id}">

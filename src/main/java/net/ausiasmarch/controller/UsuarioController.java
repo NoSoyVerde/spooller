@@ -10,7 +10,6 @@ import net.ausiasmarch.service.UsuarioService;
 @WebServlet("/UsuarioController")
 public class UsuarioController extends HttpServlet {
 
-    // Declarar el servicio como atributo de clase
     private UsuarioService usuarioService = new UsuarioService();
 
     @Override
@@ -49,6 +48,7 @@ public class UsuarioController extends HttpServlet {
                 UsuarioBean usuario = new UsuarioBean();
                 usuario.setId(Long.parseLong(request.getParameter("id")));
                 usuario.setUsername(request.getParameter("username"));
+                usuario.setPassword(""); // Campo password vacío
                 usuario.setNombre(request.getParameter("nombre"));
                 usuario.setApellido1(request.getParameter("apellido1"));
                 usuario.setApellido2(request.getParameter("apellido2"));
@@ -63,6 +63,7 @@ public class UsuarioController extends HttpServlet {
                 // CREATE
                 UsuarioBean usuario = new UsuarioBean();
                 usuario.setUsername(request.getParameter("username"));
+                usuario.setPassword(""); // Campo password vacío
                 usuario.setNombre(request.getParameter("nombre"));
                 usuario.setApellido1(request.getParameter("apellido1"));
                 usuario.setApellido2(request.getParameter("apellido2"));

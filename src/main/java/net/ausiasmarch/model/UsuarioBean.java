@@ -4,16 +4,19 @@ public class UsuarioBean {
 
     private Long id;
     private String username;
+    private String password; // Nuevo campo
     private String nombre;
     private String apellido1;
     private String apellido2;
 
     public UsuarioBean() {
+        this.password = ""; // Valor por defecto vacío
     }
 
     public UsuarioBean(Long id, String username) {
         this.id = id;
         this.username = username;
+        this.password = ""; // Valor por defecto vacío
     }
 
     public Long getId() {
@@ -24,20 +27,28 @@ public class UsuarioBean {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getApellido1() {

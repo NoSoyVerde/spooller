@@ -38,36 +38,37 @@ public class UsuarioDAO {
         return oUsuarioBean;
     }
 
-    // Obtener todos los usuarios
+    // Obtener todos los usuario
     public List<UsuarioBean> getAll() {
         String strSQL = "SELECT * FROM usuario";
-        List<UsuarioBean> usuarios = new ArrayList<>();
+        List<UsuarioBean> usuario = new ArrayList<>();
 
         try (Connection oConnection = HikariConfiguration.getConnection();
              PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL);
              ResultSet oResultSet = oPreparedStatement.executeQuery()) {
 
             while (oResultSet.next()) {
-                usuarios.add(mapResultSetToUsuario(oResultSet));
+                usuario.add(mapResultSetToUsuario(oResultSet));
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Error accediendo a la base de datos", e);
         }
 
-        return usuarios;
+        return usuario;
     }
 
     // Insertar un usuario
     public boolean insert(UsuarioBean oUsuarioBean) {
-        String strSQL = "INSERT INTO usuario (username, nombre, apellido1, apellido2) VALUES (?, ?, ?, ?)";
+        String strSQL = "INSERT INTO usuario (username, password, nombre, apellido1, apellido2) VALUES (?, ?, ?, ?, ?)";
         try (Connection oConnection = HikariConfiguration.getConnection();
              PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
 
             oPreparedStatement.setString(1, oUsuarioBean.getUsername());
-            oPreparedStatement.setString(2, oUsuarioBean.getNombre());
-            oPreparedStatement.setString(3, oUsuarioBean.getApellido1());
-            oPreparedStatement.setString(4, oUsuarioBean.getApellido2());
+            oPreparedStatement.setString(2, oUsuarioBean.getPassword()); // Siempre vacío
+            oPreparedStatement.setString(3, oUsuarioBean.getNombre());
+            oPreparedStatement.setString(4, oUsuarioBean.getApellido1());
+            oPreparedStatement.setString(5, oUsuarioBean.getApellido2());
 
             return oPreparedStatement.executeUpdate() > 0;
 
@@ -78,15 +79,16 @@ public class UsuarioDAO {
 
     // Actualizar un usuario
     public boolean update(UsuarioBean oUsuarioBean) {
-        String strSQL = "UPDATE usuario SET username=?, nombre=?, apellido1=?, apellido2=? WHERE id=?";
+        String strSQL = "UPDATE usuario SET username=?, password=?, nombre=?, apellido1=?, apellido2=? WHERE id=?";
         try (Connection oConnection = HikariConfiguration.getConnection();
              PreparedStatement oPreparedStatement = oConnection.prepareStatement(strSQL)) {
 
             oPreparedStatement.setString(1, oUsuarioBean.getUsername());
-            oPreparedStatement.setString(2, oUsuarioBean.getNombre());
-            oPreparedStatement.setString(3, oUsuarioBean.getApellido1());
-            oPreparedStatement.setString(4, oUsuarioBean.getApellido2());
-            oPreparedStatement.setLong(5, oUsuarioBean.getId());
+            oPreparedStatement.setString(2, oUsuarioBean.getPassword()); // Siempre vacío
+            oPreparedStatement.setString(3, oUsuarioBean.getNombre());
+            oPreparedStatement.setString(4, oUsuarioBean.getApellido1());
+            oPreparedStatement.setString(5, oUsuarioBean.getApellido2());
+            oPreparedStatement.setLong(6, oUsuarioBean.getId());
 
             int rowsUpdated = oPreparedStatement.executeUpdate();
             if (rowsUpdated == 0) {
@@ -124,6 +126,7 @@ public class UsuarioDAO {
         UsuarioBean oUsuarioBean = new UsuarioBean();
         oUsuarioBean.setId(oResultSet.getLong("id"));
         oUsuarioBean.setUsername(oResultSet.getString("username"));
+        oUsuarioBean.setPassword(oResultSet.getString("password")); // Se añade
         oUsuarioBean.setNombre(oResultSet.getString("nombre"));
         oUsuarioBean.setApellido1(oResultSet.getString("apellido1"));
         oUsuarioBean.setApellido2(oResultSet.getString("apellido2"));
