@@ -32,4 +32,5 @@ public class UsuarioService {
     public void delete(Long id) {
         usuarioDAO.delete(id);
     }
+    
 }

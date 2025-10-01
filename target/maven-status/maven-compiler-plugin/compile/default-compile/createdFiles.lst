@@ -1,8 +1,9 @@
-net\ausiasmarch\dao\UsuarioDAO.class
-net\ausiasmarch\model\UsuarioBean.class
-net\ausiasmarch\service\UsuarioService.class
-net\ausiasmarch\connection\AppContextListener.class
-net\ausiasmarch\connection\HikariConfiguration.class
-net\ausiasmarch\connection\DatabaseParameters.class
-net\ausiasmarch\controller\UsuarioController.class
-net\ausiasmarch\exception\ResourceNotFoundException.class
+net/ausiasmarch/service/UsuarioService.class
+net/ausiasmarch/connection/AppContextListener.class
+net/ausiasmarch/model/UsuarioBean.class
+net/ausiasmarch/dao/UsuarioDAO.class
+net/ausiasmarch/controller/UsuarioController.class
+net/ausiasmarch/connection/DatabaseParameters.class
+net/ausiasmarch/exception/ResourceNotFoundException.class
+net/ausiasmarch/connection/HikariConfiguration.class
+net/ausiasmarch/controller/LoginController.class
